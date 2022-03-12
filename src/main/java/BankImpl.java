@@ -1,10 +1,12 @@
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BankImpl implements Bank {
 
-    private List<Account> accountList = new ArrayList<>();
+    private Map<Long,Account> accountList = new HashMap<>();
     private long idNew = 0;
 
     @Override
@@ -15,13 +17,13 @@ public class BankImpl implements Bank {
 
         // Create new account
         Account account = new Account(++idNew,name,  address, BigDecimal.ZERO);
-        accountList.add(account);
+        accountList.put(idNew, account);
         return account.id;
     }
 
     @Override
     public Long findAccount(String name, String address) {
-        for (Account account : accountList) {
+        for (Account account : accountList.values()) {
             if(account.name.equals(name) && account.address.equals(address))
                 return account.id;
         }
@@ -31,7 +33,7 @@ public class BankImpl implements Bank {
 
     @Override
     public void deposit(Long id, BigDecimal amount) throws AccountIdException {
-        Account account = accountList.get(Math.toIntExact(id));
+        Account account = accountList.get(id);
         if(account == null) throw new AccountIdException();
 
         account.setBalance(amount);
@@ -39,7 +41,7 @@ public class BankImpl implements Bank {
 
     @Override
     public BigDecimal getBalance(Long id) throws AccountIdException {
-        Account account = accountList.get(Math.toIntExact(id));
+        Account account = accountList.get(id);
         if(account == null) throw new AccountIdException();
 
         return account.getBalance();
@@ -48,7 +50,7 @@ public class BankImpl implements Bank {
 
     @Override
     public void withdraw(Long id, BigDecimal amount) throws AccountIdException, InsufficientFundsException {
-        Account account = accountList.get(Math.toIntExact(id));
+        Account account = accountList.get(id);
         if(account == null) throw new AccountIdException();
 
         BigDecimal balance = account.getBalance();
@@ -61,8 +63,8 @@ public class BankImpl implements Bank {
 
     @Override
     public void transfer(Long idSource, Long idDestination, BigDecimal amount) throws AccountIdException, InsufficientFundsException {
-        Account srcAccount = accountList.get(Math.toIntExact(idSource));
-        Account destAccount = accountList.get(Math.toIntExact(idDestination));
+        Account srcAccount = accountList.get(idSource);
+        Account destAccount = accountList.get(idDestination);
 
         if(srcAccount == null || destAccount == null) {
             throw new AccountIdException();

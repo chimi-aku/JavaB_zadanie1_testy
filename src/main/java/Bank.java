@@ -71,5 +71,12 @@ public interface Bank {
     }
 
     class AccountIdException extends RuntimeException {
+        public AccountIdException() {
+            super("There's not an account in database");
+        }
+
+        public AccountIdException(String message) {
+            super(message);
+        }
     }
 }
