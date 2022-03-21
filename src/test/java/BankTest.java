@@ -199,27 +199,27 @@ public class BankTest {
         });
     }
 
-    @Test
-    public void transfer_successTransfer() {
-        // given
-        Long srcId = bank.createAccount("x", "d");
-        Long destId = bank.createAccount("a", "b");;
-        BigDecimal amount = BigDecimal.valueOf(10f);
-
-        bank.deposit(srcId, BigDecimal.valueOf(100f));
-
-        // When
-        bank.transfer(srcId, destId, amount);
-
-        BigDecimal srcBalanceAfterTransfer = bank.getBalance(srcId);
-        BigDecimal destBalanceAfterTransfer = bank.getBalance(destId);
-
-        boolean success = srcBalanceAfterTransfer.floatValue() == 90
-                && destBalanceAfterTransfer.floatValue() == 10;
-
-        // Then
-        assert success == true;
-    }
+//    @Test
+//    public void transfer_successTransfer() {
+//        // given
+//        Long srcId = bank.createAccount("x", "d");
+//        Long destId = bank.createAccount("a", "b");;
+//        BigDecimal amount = BigDecimal.valueOf(10f);
+//
+//        bank.deposit(srcId, BigDecimal.valueOf(100f));
+//
+//        // When
+//        bank.transfer(srcId, destId, amount);
+//
+//        BigDecimal srcBalanceAfterTransfer = bank.getBalance(srcId);
+//        BigDecimal destBalanceAfterTransfer = bank.getBalance(destId);
+//
+//        boolean success = srcBalanceAfterTransfer.floatValue() == 90
+//                && destBalanceAfterTransfer.floatValue() == 10;
+//
+//        // Then
+//        assert success == true;
+//    }
 
 
 }

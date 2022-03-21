@@ -1,16 +1,19 @@
+
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class BankImpl implements Bank {
 
     private Map<Long,Account> accountList = new HashMap<>();
     private long idNew = 0;
 
-    Logger log = Logger.getLogger(Bank.class.getName());
+    private final Logger log = LogManager.getLogger(getClass());
 
 
     @Override
@@ -18,7 +21,7 @@ public class BankImpl implements Bank {
         // Check if threse is existing account
         Long id = findAccount(name, address);
         if(id != null) {
-            log.fine("Such account already exists");
+            log.debug("Such account already exists");
             return id;
         }
 
@@ -26,7 +29,7 @@ public class BankImpl implements Bank {
         Account account = new Account(++idNew,name,  address, BigDecimal.ZERO);
         accountList.put(idNew, account);
 
-        log.fine("Account created");
+        log.debug("Account created");
 
         return account.id;
     }
@@ -35,11 +38,11 @@ public class BankImpl implements Bank {
     public Long findAccount(String name, String address) {
         for (Account account : accountList.values()) {
             if(account.name.equals(name) && account.address.equals(address))
-                log.fine("Account succesfully founded");
+                log.debug("Account succesfully founded");
                 return account.id;
         }
 
-        log.warning("Account not found");
+        log.error("Account not found");
         return null;
     }
 
@@ -48,7 +51,7 @@ public class BankImpl implements Bank {
         Account account = accountList.get(id);
         if(account == null) throw new AccountIdException();
 
-        log.fine("Balance got succesfully");
+        log.debug("Balance got succesfully");
         account.setBalance(amount);
     }
 
@@ -57,7 +60,7 @@ public class BankImpl implements Bank {
         Account account = accountList.get(id);
         if(account == null) throw new AccountIdException();
 
-        log.fine("Balance got succesfully");
+        log.debug("Balance got succesfully");
         return account.getBalance();
 
     }
